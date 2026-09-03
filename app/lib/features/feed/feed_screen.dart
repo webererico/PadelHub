@@ -30,8 +30,8 @@ class FeedScreen extends ConsumerWidget {
         ),
         actions: const [
           Icon(Icons.notifications_outlined, color: AppColors.textPrimary),
-          SizedBox(width: 16),
-          AppAvatar(initials: 'RC', size: 32),
+          SizedBox(width: 12),
+          _AccountMenu(),
           SizedBox(width: 16),
         ],
       ),
@@ -54,6 +54,49 @@ class FeedScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+class _AccountMenu extends ConsumerWidget {
+  const _AccountMenu();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(authStateProvider).asData?.value;
+    final initials = _initialsFor(user?.displayName ?? user?.email);
+
+    return PopupMenuButton<String>(
+      tooltip: 'Conta',
+      offset: const Offset(0, 44),
+      color: AppColors.surfaceRaised,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      onSelected: (value) {
+        if (value == 'logout') {
+          ref.read(authServiceProvider).signOut();
+        }
+      },
+      itemBuilder: (context) => [
+        const PopupMenuItem(
+          value: 'logout',
+          child: Row(
+            children: [
+              Icon(Icons.logout, size: 18, color: AppColors.danger),
+              SizedBox(width: 10),
+              Text('Sair'),
+            ],
+          ),
+        ),
+      ],
+      child: AppAvatar(initials: initials, size: 32),
+    );
+  }
+
+  static String _initialsFor(String? source) {
+    final trimmed = source?.trim() ?? '';
+    if (trimmed.isEmpty) return '?';
+    final parts = trimmed.split(RegExp(r'\s+'));
+    if (parts.length == 1) return parts.first.substring(0, 1).toUpperCase();
+    return (parts.first.substring(0, 1) + parts.last.substring(0, 1)).toUpperCase();
   }
 }
 
