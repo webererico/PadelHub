@@ -29,7 +29,7 @@ class RatingChart extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [AppColors.accent.withOpacity(0.22), AppColors.accent.withOpacity(0)],
+                colors: [AppColors.accent.withValues(alpha: 0.22), AppColors.accent.withValues(alpha: 0)],
               ),
             ),
           ),

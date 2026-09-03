@@ -6,6 +6,10 @@ declare global {
   namespace Express {
     interface Request {
       uid?: string;
+      /** Claims carried by the verified ID token — not the Postgres profile. */
+      tokenEmail?: string;
+      tokenName?: string;
+      tokenPicture?: string;
     }
   }
 }
@@ -23,6 +27,9 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
   try {
     const decoded = await getAuth().verifyIdToken(token);
     req.uid = decoded.uid;
+    req.tokenEmail = decoded.email;
+    req.tokenName = typeof decoded.name === 'string' ? decoded.name : undefined;
+    req.tokenPicture = typeof decoded.picture === 'string' ? decoded.picture : undefined;
     next();
   } catch (err) {
     res.status(401).json({error: 'invalid_token'});

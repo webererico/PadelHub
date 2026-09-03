@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/providers.dart';
 import '../../core/theme/app_colors.dart';
 import '../arena/my_arena_tab.dart';
 import '../feed/feed_screen.dart';
@@ -9,14 +11,14 @@ import '../ranking/ranking_screen.dart';
 
 /// Hosts the bottom-nav tabs. "Registrar" (index 2) isn't a tab — it pushes
 /// the full-screen record-match flow instead of swapping the IndexedStack.
-class HomeShell extends StatefulWidget {
+class HomeShell extends ConsumerStatefulWidget {
   const HomeShell({super.key});
 
   @override
-  State<HomeShell> createState() => _HomeShellState();
+  ConsumerState<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState extends ConsumerState<HomeShell> {
   int _tabIndex = 0;
 
   static const _tabs = [FeedScreen(), RankingScreen(), MyArenaTab(), ProfileScreen()];
@@ -31,11 +33,25 @@ class _HomeShellState extends State<HomeShell> {
 
   @override
   Widget build(BuildContext context) {
+    // Blocks the tabs (which each fetch data for the signed-in uid) until a
+    // matching Postgres row is guaranteed to exist — avoids a race where a
+    // tab's own fetch 404s because it ran before the profile was created.
+    final ensured = ref.watch(ensureProfileProvider);
+
     return Scaffold(
-      body: IndexedStack(index: _tabIndex, children: _tabs),
+      body: ensured.when(
+        loading: () => const Center(child: CircularProgressIndicator(color: AppColors.accent)),
+        error: (error, stack) => Center(
+          child: TextButton(
+            onPressed: () => ref.invalidate(ensureProfileProvider),
+            child: const Text('Não foi possível preparar seu perfil. Tentar novamente.'),
+          ),
+        ),
+        data: (_) => IndexedStack(index: _tabIndex, children: _tabs),
+      ),
       bottomNavigationBar: NavigationBar(
         backgroundColor: AppColors.surface,
-        indicatorColor: AppColors.accent.withOpacity(0.16),
+        indicatorColor: AppColors.accent.withValues(alpha: 0.16),
         selectedIndex: _tabIndex < 2 ? _tabIndex : _tabIndex + 1,
         onDestinationSelected: _onDestinationSelected,
         destinations: const [

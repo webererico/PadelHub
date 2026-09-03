@@ -24,12 +24,14 @@ create table if not exists users (
   state           text,
   country         text default 'BR',
   rating          int not null default 1000,
+  is_admin        boolean not null default false,
   created_at      timestamptz not null default now()
 );
 
 create index if not exists idx_users_club on users(club_id);
 create index if not exists idx_users_city on users(city, state);
 create index if not exists idx_users_rating on users(rating desc);
+create index if not exists idx_users_name on users(lower(name) text_pattern_ops);
 
 create table if not exists matches (
   id              uuid primary key default gen_random_uuid(),

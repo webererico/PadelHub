@@ -50,8 +50,8 @@ class BadgeTile extends StatelessWidget {
           height: 58,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: RadialGradient(colors: [color, color.withOpacity(0.6)]),
-            boxShadow: [BoxShadow(color: color.withOpacity(0.3), blurRadius: 10, offset: const Offset(0, 4))],
+            gradient: RadialGradient(colors: [color, color.withValues(alpha: 0.6)]),
+            boxShadow: [BoxShadow(color: color.withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 4))],
           ),
           child: Icon(_icons[type], color: Colors.white, size: 24),
         ),

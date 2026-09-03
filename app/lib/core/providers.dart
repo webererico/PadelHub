@@ -8,12 +8,11 @@ import '../services/match_service.dart';
 import '../services/ranking_service.dart';
 import '../services/user_service.dart';
 
-/// Base URL of the deployed Cloud Functions API in front of Cloud SQL.
-/// Override with --dart-define=API_BASE_URL=... per environment.
-const String _apiBaseUrl = String.fromEnvironment(
-  'API_BASE_URL',
-  defaultValue: 'https://us-central1-padelhub-prod.cloudfunctions.net/api',
-);
+/// Base URL of the API. Defaults to a path relative to wherever the app
+/// itself is served (Firebase Hosting rewrites `/api/**` to the Cloud
+/// Function — see firebase.json), so no project/region needs hardcoding.
+/// Override for local dev: --dart-define=API_BASE_URL=http://localhost:5001/<project>/<region>/api
+const String _apiBaseUrl = String.fromEnvironment('API_BASE_URL', defaultValue: '/api');
 
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
@@ -22,6 +21,16 @@ final authStateProvider = StreamProvider<User?>((ref) {
 });
 
 final apiClientProvider = Provider<ApiClient>((ref) => ApiClient(baseUrl: _apiBaseUrl));
+
+/// Ensures a Postgres `users` row exists for the signed-in Firebase user.
+/// Watch this once from an authenticated screen (HomeShell) — it re-fires
+/// whenever the signed-in uid changes, including on a fresh app boot with
+/// an already-persisted session.
+final ensureProfileProvider = FutureProvider.autoDispose<void>((ref) async {
+  final uid = ref.watch(authStateProvider).asData?.value?.uid;
+  if (uid == null) return;
+  await ref.watch(userServiceProvider).ensureProfile();
+});
 
 final matchServiceProvider = Provider<MatchService>((ref) => MatchService(ref.watch(apiClientProvider)));
 

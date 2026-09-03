@@ -26,7 +26,7 @@ class SetScoreEntry extends StatelessWidget {
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: highlighted ? AppColors.accent.withOpacity(0.4) : AppColors.border),
+        side: BorderSide(color: highlighted ? AppColors.accent.withValues(alpha: 0.4) : AppColors.border),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

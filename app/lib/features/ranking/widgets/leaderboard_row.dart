@@ -60,9 +60,9 @@ class LeaderboardRow extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       margin: const EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
-        color: AppColors.accent.withOpacity(0.12),
+        color: AppColors.accent.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.accent.withOpacity(0.4)),
+        border: Border.all(color: AppColors.accent.withValues(alpha: 0.4)),
       ),
       child: content,
     );

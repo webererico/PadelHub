@@ -65,7 +65,7 @@ class _CourtPainter extends CustomPainter {
     }
 
     final glowPaint = Paint()
-      ..color = AppColors.accent.withOpacity(0.18)
+      ..color = AppColors.accent.withValues(alpha: 0.18)
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 40);
     canvas.drawCircle(Offset(size.width * 0.85, size.height * 0.1), 70, glowPaint);
   }

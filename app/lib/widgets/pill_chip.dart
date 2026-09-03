@@ -37,6 +37,6 @@ class RankBadgeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PillChip(label: label.toUpperCase(), background: color.withOpacity(0.18), foreground: color, fontSize: 9.5);
+    return PillChip(label: label.toUpperCase(), background: color.withValues(alpha: 0.18), foreground: color, fontSize: 9.5);
   }
 }

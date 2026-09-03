@@ -9,6 +9,7 @@ class AppUser {
     this.clubName,
     this.city,
     this.state,
+    this.isAdmin = false,
   });
 
   factory AppUser.fromJson(Map<String, dynamic> json) => AppUser(
@@ -21,6 +22,7 @@ class AppUser {
         clubName: json['clubName'] as String?,
         city: json['city'] as String?,
         state: json['state'] as String?,
+        isAdmin: json['isAdmin'] as bool? ?? false,
       );
 
   final String id;
@@ -32,6 +34,7 @@ class AppUser {
   final String? clubName;
   final String? city;
   final String? state;
+  final bool isAdmin;
 
   String get initials {
     final parts = name.trim().split(RegExp(r'\s+'));

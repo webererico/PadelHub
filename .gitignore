@@ -2,6 +2,9 @@
 # .dc.html sources in this folder via seed-canvas.mjs) — not source.
 design/padelhub-design.html
 
+# Firebase CLI local deploy cache
+.firebase/
+
 # OS / editor
 .DS_Store
 .vscode/
