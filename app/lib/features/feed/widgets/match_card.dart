@@ -5,6 +5,7 @@ import '../../../models/match.dart';
 import '../../../services/match_service.dart';
 import '../../../widgets/app_avatar.dart';
 import '../../../widgets/pill_chip.dart';
+import 'comments_sheet.dart';
 
 class MatchCard extends StatelessWidget {
   const MatchCard({super.key, required this.match, required this.matchService});
@@ -72,7 +73,12 @@ class MatchCard extends StatelessWidget {
                   onTap: () => matchService.giveKudos(match.id),
                 ),
                 const SizedBox(width: 18),
-                _CountAction(icon: Icons.mode_comment_outlined, count: match.commentCount, color: AppColors.textSecondary),
+                _CountAction(
+                  icon: Icons.mode_comment_outlined,
+                  count: match.commentCount,
+                  color: AppColors.textSecondary,
+                  onTap: () => showCommentsSheet(context, matchId: match.id, matchService: matchService),
+                ),
                 const Spacer(),
                 if (match.ratingDelta != null)
                   Text(

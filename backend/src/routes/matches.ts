@@ -123,6 +123,7 @@ matchesRouter.post(
       if (matchRow.rows[0]?.status === 'pending_confirmation') {
         await client.query(`update matches set status = 'confirmed' where id = $1`, [matchId]);
         await applyRatingChanges(client, matchId);
+        await awardBadges(client, matchId);
       }
 
       await client.query('commit');
@@ -145,6 +146,55 @@ matchesRouter.post(
       [req.params.matchId, req.uid],
     );
     res.status(204).send();
+  }),
+);
+
+matchesRouter.get(
+  '/:matchId/comments',
+  asyncHandler(async (req, res) => {
+    const pool = await getPool();
+    const {rows} = await pool.query(
+      `select c.id, c.user_id, u.name as user_name, c.body, c.created_at
+       from comments c
+       join users u on u.id = c.user_id
+       where c.match_id = $1
+       order by c.created_at asc`,
+      [req.params.matchId],
+    );
+    res.json(
+      rows.map((r) => ({
+        id: r.id,
+        userId: r.user_id,
+        userName: r.user_name,
+        body: r.body,
+        createdAt: r.created_at.toISOString(),
+      })),
+    );
+  }),
+);
+
+matchesRouter.post(
+  '/:matchId/comments',
+  asyncHandler(async (req, res) => {
+    const body = (req.body as {body?: string})?.body?.trim();
+    if (!body) {
+      res.status(400).json({error: 'invalid_payload'});
+      return;
+    }
+    const pool = await getPool();
+    const {rows} = await pool.query(
+      `insert into comments (match_id, user_id, body) values ($1, $2, $3)
+       returning id, created_at`,
+      [req.params.matchId, req.uid, body],
+    );
+    const me = await pool.query(`select name from users where id = $1`, [req.uid]);
+    res.status(201).json({
+      id: rows[0].id,
+      userId: req.uid,
+      userName: me.rows[0]?.name ?? 'Jogador',
+      body,
+      createdAt: rows[0].created_at.toISOString(),
+    });
   }),
 );
 
@@ -187,4 +237,42 @@ async function applyPlayerDelta(client: any, matchId: string, userId: string, de
     updated.rows[0].rating,
     matchId,
   ]);
+}
+
+/**
+ * Checks the badge rules that are derivable from data we already have.
+ * "Inimigo do Erro" (fewest unforced errors) isn't implementable yet —
+ * nothing tracks in-match error stats.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function awardBadges(client: any, matchId: string): Promise<void> {
+  const sets = await client.query(
+    `select team_a_games, team_b_games from match_sets where match_id = $1`,
+    [matchId],
+  );
+  const players = await client.query(`select user_id, team from match_players where match_id = $1`, [matchId]);
+  const teamA: string[] = players.rows.filter((p: {team: string}) => p.team === 'A').map((p: {user_id: string}) => p.user_id);
+  const teamB: string[] = players.rows.filter((p: {team: string}) => p.team === 'B').map((p: {user_id: string}) => p.user_id);
+
+  // Pneu Furado: won a set 6-0 (either side, possibly both across different sets).
+  const teamAGotSixLove = sets.rows.some((s: {team_a_games: number; team_b_games: number}) => s.team_a_games === 6 && s.team_b_games === 0);
+  const teamBGotSixLove = sets.rows.some((s: {team_a_games: number; team_b_games: number}) => s.team_b_games === 6 && s.team_a_games === 0);
+  const sixLoveWinners = [...(teamAGotSixLove ? teamA : []), ...(teamBGotSixLove ? teamB : [])];
+  for (const userId of sixLoveWinners) {
+    await client.query(`insert into player_badges (user_id, badge_type) values ($1, 'pneu_furado') on conflict do nothing`, [userId]);
+  }
+
+  // Nômade do Padel: played at 5+ distinct arenas.
+  for (const userId of [...teamA, ...teamB]) {
+    const arenaCount = await client.query(
+      `select count(distinct m.arena_id)::int as count
+       from matches m
+       join match_players mp on mp.match_id = m.id
+       where mp.user_id = $1 and m.arena_id is not null and m.status = 'confirmed'`,
+      [userId],
+    );
+    if ((arenaCount.rows[0]?.count ?? 0) >= 5) {
+      await client.query(`insert into player_badges (user_id, badge_type) values ($1, 'nomade_do_padel') on conflict do nothing`, [userId]);
+    }
+  }
 }

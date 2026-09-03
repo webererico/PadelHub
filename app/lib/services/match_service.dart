@@ -1,5 +1,6 @@
 import '../core/network/api_client.dart';
 import '../models/match.dart';
+import '../models/match_comment.dart';
 
 class MatchService {
   MatchService(this._api);
@@ -42,5 +43,15 @@ class MatchService {
 
   Future<void> giveKudos(String matchId) {
     return _api.post('/matches/$matchId/kudos');
+  }
+
+  Future<List<MatchComment>> fetchComments(String matchId) async {
+    final json = await _api.get('/matches/$matchId/comments') as List;
+    return json.map((e) => MatchComment.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
+  Future<MatchComment> postComment(String matchId, String body) async {
+    final json = await _api.post('/matches/$matchId/comments', body: {'body': body});
+    return MatchComment.fromJson(json as Map<String, dynamic>);
   }
 }
