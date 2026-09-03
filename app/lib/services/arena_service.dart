@@ -29,4 +29,21 @@ class ArenaService {
             ))
         .toList();
   }
+
+  /// Admin-only: lists every arena (not just the viewer's own club).
+  Future<List<Arena>> fetchAllArenas() async {
+    final json = await _api.get('/arenas') as List;
+    return json.map((e) => Arena.fromJson(e as Map<String, dynamic>)).toList();
+  }
+
+  /// Admin-only: registers a new arena/club.
+  Future<Arena> createArena({required String name, required String city, required String state, int courtCount = 1}) async {
+    final json = await _api.post('/arenas', body: {
+      'name': name,
+      'city': city,
+      'state': state,
+      'courtCount': courtCount,
+    });
+    return Arena.fromJson(json as Map<String, dynamic>);
+  }
 }

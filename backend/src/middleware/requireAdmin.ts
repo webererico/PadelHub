@@ -1,9 +1,8 @@
-import type {NextFunction, Request, Response} from 'express';
-
 import {getPool} from '../db';
+import {asyncHandler} from './asyncHandler';
 
 /** Must run after `authenticate` (needs req.uid). 403s anyone who isn't flagged is_admin. */
-export async function requireAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
+export const requireAdmin = asyncHandler(async (req, res, next) => {
   const pool = await getPool();
   const {rows} = await pool.query('select is_admin from users where id = $1', [req.uid]);
   if (!rows[0]?.is_admin) {
@@ -11,4 +10,4 @@ export async function requireAdmin(req: Request, res: Response, next: NextFuncti
     return;
   }
   next();
-}
+});

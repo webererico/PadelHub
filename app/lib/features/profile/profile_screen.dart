@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/constants/ranks.dart';
 import '../../core/providers.dart';
@@ -111,6 +112,22 @@ class ProfileScreen extends ConsumerWidget {
               ),
               for (final match in data.recentMatches.take(5))
                 _RecentMatchRow(match: match),
+              if (data.user.isAdmin) ...[
+                const SizedBox(height: 12),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Card(
+                    margin: EdgeInsets.zero,
+                    child: ListTile(
+                      onTap: () => context.push('/admin'),
+                      leading: const Icon(Icons.admin_panel_settings_outlined, color: AppColors.accent),
+                      title: const Text('Painel Admin', style: TextStyle(fontWeight: FontWeight.w700)),
+                      subtitle: const Text('Cadastrar arenas', style: TextStyle(color: AppColors.textSecondary)),
+                      trailing: const Icon(Icons.chevron_right, color: AppColors.textTertiary),
+                    ),
+                  ),
+                ),
+              ],
             ],
           );
         },
