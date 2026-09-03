@@ -1,0 +1,8 @@
+# Generated Claude Design canvas bundle (~2 MB, regenerated from the
+# .dc.html sources in this folder via seed-canvas.mjs) — not source.
+design/padelhub-design.html
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

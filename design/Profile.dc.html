@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+  body{margin:0;font-family:'Manrope',system-ui,sans-serif;background:oklch(20% 0.035 200);color:oklch(97% 0.01 95);}
+  h1,h2,.disp{font-family:'Space Grotesk',system-ui,sans-serif;}
+  .card{background:oklch(24% 0.04 200);border-radius:16px;border:1px solid oklch(32% 0.04 200 / 0.6);}
+  .label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:oklch(58% 0.03 195);}
+</style>
+</helmet>
+<div style="width:390px;background:oklch(20% 0.035 200);box-sizing:border-box;display:flex;flex-direction:column;">
+
+  <div style="position:relative;height:118px;background:linear-gradient(120deg, oklch(34% 0.07 195), oklch(24% 0.05 210));">
+    <svg width="100%" height="118" viewBox="0 0 390 118" style="position:absolute;inset:0;opacity:.35;"><line x1="0" y1="59" x2="390" y2="59" stroke="oklch(90% 0.01 95)" stroke-width="1.5" stroke-dasharray="5 7"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="oklch(97% 0.01 95)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;top:16px;left:20px;"><path d="M15 18l-6-6 6-6"/></svg>
+  </div>
+  <div style="padding:0 20px;margin-top:-40px;">
+    <div style="width:80px;height:80px;border-radius:50%;background:oklch(45% 0.09 195);border:4px solid oklch(20% 0.035 200);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;">RC</div>
+    <div style="margin-top:12px;display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <h1 class="disp" style="margin:0;font-size:20px;font-weight:700;">Rafael Costa</h1>
+        <div style="font-size:12.5px;color:oklch(68% 0.03 195);margin-top:2px;">Arena Padel Club · São Paulo, SP</div>
+      </div>
+      <span style="border-radius:999px;font-weight:700;font-size:10.5px;padding:6px 12px;background:oklch(70% 0.19 45 / 0.18);color:oklch(70% 0.19 45);white-space:nowrap;">Mestre do Smash</span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:20px;">
+    <div class="card" style="padding:14px 8px;text-align:center;">
+      <div class="disp" style="font-size:20px;font-weight:700;">1.842</div>
+      <div class="label" style="margin-top:4px;">Rating</div>
+    </div>
+    <div class="card" style="padding:14px 8px;text-align:center;">
+      <div class="disp" style="font-size:20px;font-weight:700;color:oklch(78% 0.15 165);">68%</div>
+      <div class="label" style="margin-top:4px;">Vitórias</div>
+    </div>
+    <div class="card" style="padding:14px 8px;text-align:center;">
+      <div class="disp" style="font-size:20px;font-weight:700;">134</div>
+      <div class="label" style="margin-top:4px;">Partidas</div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 20px;">
+    <div class="card" style="padding:18px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+        <span class="label">Evolução do rating</span>
+        <span style="font-size:11px;font-weight:700;color:oklch(78% 0.15 165);">+214 em 6 meses</span>
+      </div>
+      <svg width="100%" height="90" viewBox="0 0 334 90" preserveAspectRatio="none">
+        <line x1="0" y1="22" x2="334" y2="22" stroke="oklch(34% 0.04 200)" stroke-width="1"/>
+        <line x1="0" y1="45" x2="334" y2="45" stroke="oklch(34% 0.04 200)" stroke-width="1"/>
+        <line x1="0" y1="68" x2="334" y2="68" stroke="oklch(34% 0.04 200)" stroke-width="1"/>
+        <polyline points="0,70 55,64 110,58 165,50 220,38 278,26 334,10" fill="none" stroke="oklch(70% 0.19 45)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="334" cy="10" r="4.5" fill="oklch(70% 0.19 45)"/>
+      </svg>
+      <div style="display:flex;justify-content:space-between;margin-top:4px;">
+        <span style="font-size:10px;color:oklch(52% 0.02 195);">Abr</span>
+        <span style="font-size:10px;color:oklch(52% 0.02 195);">Jun</span>
+        <span style="font-size:10px;color:oklch(52% 0.02 195);">Ago</span>
+        <span style="font-size:10px;color:oklch(52% 0.02 195);">Set</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 20px;">
+    <div class="label" style="margin-bottom:10px;">Medalhas</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div style="width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 30%, oklch(72% 0.17 30), oklch(52% 0.15 25));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px oklch(15% 0.02 200/0.4);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M9 15l-2 2M17 7l-2 2"/></svg>
+        </div>
+        <span style="font-size:9.5px;font-weight:700;text-align:center;line-height:1.2;">Pneu<br/>Furado</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div style="width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 30%, oklch(70% 0.14 220), oklch(48% 0.13 220));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px oklch(15% 0.02 200/0.4);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2"/></svg>
+        </div>
+        <span style="font-size:9.5px;font-weight:700;text-align:center;line-height:1.2;">Nômade<br/>do Padel</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div style="width:58px;height:58px;border-radius:50%;background:radial-gradient(circle at 35% 30%, oklch(80% 0.15 90), oklch(60% 0.14 80));display:flex;align-items:center;justify-content:center;box-shadow:0 4px 10px oklch(15% 0.02 200/0.4);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+        </div>
+        <span style="font-size:9.5px;font-weight:700;text-align:center;line-height:1.2;">Inimigo<br/>do Erro</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+        <div style="width:58px;height:58px;border-radius:50%;background:oklch(28% 0.02 200);border:1.5px dashed oklch(45% 0.03 200);display:flex;align-items:center;justify-content:center;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="oklch(48% 0.02 195)" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        </div>
+        <span style="font-size:9.5px;font-weight:700;text-align:center;line-height:1.2;color:oklch(52% 0.02 195);">A desbloquear</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:0 20px 20px;">
+    <div class="label" style="margin-bottom:10px;">Últimas partidas</div>
+    <div style="display:flex;flex-direction:column;gap:2px;">
+      <div style="display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid oklch(30% 0.03 200);">
+        <span style="width:6px;height:32px;border-radius:3px;background:oklch(78% 0.15 165);"></span>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;">vs Fernanda &amp; Thiago</div>
+          <div style="font-size:11px;color:oklch(58% 0.03 195);">6/4 · 3/6 · 10/8</div>
+        </div>
+        <span style="font-size:11px;color:oklch(52% 0.02 195);">há 2h</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid oklch(30% 0.03 200);">
+        <span style="width:6px;height:32px;border-radius:3px;background:oklch(78% 0.15 165);"></span>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;">vs Marina &amp; João Pedro</div>
+          <div style="font-size:11px;color:oklch(58% 0.03 195);">6/2 · 6/3</div>
+        </div>
+        <span style="font-size:11px;color:oklch(52% 0.02 195);">3 dias</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;padding:11px 4px;">
+        <span style="width:6px;height:32px;border-radius:3px;background:oklch(72% 0.16 25);"></span>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;">vs Gabriel &amp; Isabela</div>
+          <div style="font-size:11px;color:oklch(58% 0.03 195);">4/6 · 5/7</div>
+        </div>
+        <span style="font-size:11px;color:oklch(52% 0.02 195);">1 sem</span>
+      </div>
+    </div>
+  </div>
+
+  <dc-import name="BottomNav" active="profile" hint-size="390px,86px"></dc-import>
+</div>
+</x-dc>
+</body>
+</html>

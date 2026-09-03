@@ -1,0 +1,16 @@
+{
+  "artboards": [
+    { "file": "Login.dc.html", "x": 0, "y": 0, "w": 390, "h": 844, "title": "Login" },
+    { "file": "Main.dc.html", "x": 470, "y": 0, "w": 390, "h": 1050, "title": "Feed" },
+    { "file": "RecordMatch.dc.html", "x": 940, "y": 0, "w": 390, "h": 1200, "title": "Registrar Partida" },
+    { "file": "Ranking.dc.html", "x": 1410, "y": 0, "w": 390, "h": 950, "title": "Ranking" },
+    { "file": "Profile.dc.html", "x": 1880, "y": 0, "w": 390, "h": 1150, "title": "Perfil" },
+    { "file": "Arena.dc.html", "x": 2350, "y": 0, "w": 390, "h": 1120, "title": "Arena" },
+    { "file": "BottomNav.dc.html", "x": 0, "y": 1350, "w": 390, "h": 90, "title": "Componente: Navegação inferior" },
+    { "file": "FeedDesktop.dc.html", "x": 0, "y": 1590, "w": 1440, "h": 900, "title": "Feed (Desktop)" }
+  ],
+  "annotations": [
+    { "id": "brief-summary", "x": 0, "y": -110, "w": 500, "text": "PadelHub — o Strava do Padel\nMobile-first (390px) + breakpoint desktop no Feed. Paleta verde-petróleo escuro + laranja vibrante." }
+  ],
+  "launch": { "view": "focused", "file": "Main.dc.html" }
+}
