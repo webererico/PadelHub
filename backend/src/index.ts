@@ -26,4 +26,7 @@ app.use((err: unknown, _req: express.Request, res: express.Response, _next: expr
   res.status(500).json({error: 'internal_error'});
 });
 
-export const api = functions.onRequest({region: 'southamerica-east1', cors: true}, app);
+export const api = functions.onRequest(
+  {region: 'southamerica-east1', cors: true, secrets: ['DB_PASSWORD']},
+  app,
+);

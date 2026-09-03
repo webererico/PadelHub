@@ -77,7 +77,9 @@ createdb padelhub
 psql "$DATABASE_URL" -f backend/sql/schema.sql
 psql "$DATABASE_URL" -f backend/sql/seed.sql   # dados de exemplo (opcional)
 ```
-Em produção, crie a instância Cloud SQL e aponte `INSTANCE_CONNECTION_NAME` / `DB_USER` / `DB_PASSWORD` (Cloud Functions params ou Secret Manager — nunca commitar credenciais).
+Em produção, crie a instância Cloud SQL, o banco `padelhub` e um usuário de app (ex. `padelhub_api`) — pelo Cloud SQL Studio no Console, sem precisar de `psql` local. Depois configure, na raiz de `backend/`:
+- `INSTANCE_CONNECTION_NAME`, `DB_USER`, `DB_NAME` — não são segredos, vão em `backend/.env.<project-id>` (ex. `backend/.env.padelhub-prod`), formato `CHAVE=valor` por linha. O Firebase carrega esse arquivo automaticamente no deploy; **não commite** o arquivo com valores reais.
+- `DB_PASSWORD` — é segredo, vai pelo Secret Manager: `firebase functions:secrets:set DB_PASSWORD` (cola a senha quando pedir). `backend/src/index.ts` já declara `secrets: ['DB_PASSWORD']` na function, então o valor chega em `process.env.DB_PASSWORD` em runtime sem precisar tocar em código.
 
 ### 3. Backend (Cloud Functions)
 ```bash
