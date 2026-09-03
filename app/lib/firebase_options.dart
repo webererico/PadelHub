@@ -24,14 +24,14 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'REPLACE_WITH_FLUTTERFIRE_CONFIGURE',
-    appId: 'REPLACE_WITH_FLUTTERFIRE_CONFIGURE',
-    messagingSenderId: 'REPLACE_WITH_FLUTTERFIRE_CONFIGURE',
-    projectId: 'padelhub-prod',
-    authDomain: 'padelhub-prod.firebaseapp.com',
-    storageBucket: 'padelhub-prod.appspot.com',
+    apiKey: 'AIzaSyAGTwDWr9_WTvEZpnmJpefzVMeAUAO3fFI',
+    appId: '1:1078280643284:web:cd3262e6c01027d9bb9141',
+    messagingSenderId: '1078280643284',
+    projectId: 'padelhub-e2b5f',
+    authDomain: 'padelhub-e2b5f.firebaseapp.com',
+    storageBucket: 'padelhub-e2b5f.firebasestorage.app',
+    measurementId: 'G-S88CKQ0LJX',
   );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'REPLACE_WITH_FLUTTERFIRE_CONFIGURE',
     appId: 'REPLACE_WITH_FLUTTERFIRE_CONFIGURE',
