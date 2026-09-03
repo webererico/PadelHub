@@ -45,7 +45,13 @@ class AuthService {
   }
 
   Future<void> signOut() async {
-    await _googleSignIn.signOut();
+    // On web, Google sign-in goes through signInWithPopup and never touches
+    // this plugin, so it's never initialized there — signOut() on it can
+    // throw. Firebase's own signOut below is what actually ends the
+    // session, so it must run regardless of whether this one succeeds.
+    try {
+      await _googleSignIn.signOut();
+    } catch (_) {}
     await _auth.signOut();
   }
 }
