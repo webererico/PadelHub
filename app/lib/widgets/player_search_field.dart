@@ -117,21 +117,26 @@ class _PlayerSearchFieldState extends ConsumerState<PlayerSearchField> {
           Container(
             margin: const EdgeInsets.only(top: 6),
             decoration: BoxDecoration(
-              color: AppColors.surfaceRaised,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.border),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                for (final player in _results)
-                  ListTile(
-                    dense: true,
-                    leading: AppAvatar(initials: player.initials, size: 30),
-                    title: Text(player.name, style: const TextStyle(fontSize: 13.5)),
-                    onTap: () => _select(player),
-                  ),
-              ],
+            clipBehavior: Clip.antiAlias,
+            // Material (not the background color above) so ListTile's ink
+            // splashes paint correctly instead of being hidden behind it.
+            child: Material(
+              color: AppColors.surfaceRaised,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (final player in _results)
+                    ListTile(
+                      dense: true,
+                      leading: AppAvatar(initials: player.initials, size: 30),
+                      title: Text(player.name, style: const TextStyle(fontSize: 13.5)),
+                      onTap: () => _select(player),
+                    ),
+                ],
+              ),
             ),
           ),
       ],

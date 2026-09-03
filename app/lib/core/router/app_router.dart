@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/admin/admin_dashboard_screen.dart';
 import '../../features/auth/login_screen.dart';
+import '../../features/events/create_event_screen.dart';
+import '../../features/events/event_detail_screen.dart';
+import '../../features/events/events_list_screen.dart';
 import '../../features/home/home_shell.dart';
 import '../../features/record_match/record_match_screen.dart';
 import '../../features/arena/arena_screen.dart';
@@ -31,6 +34,9 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/record', builder: (context, state) => const RecordMatchScreen()),
       GoRoute(path: '/arena/:arenaId', builder: (context, state) => ArenaScreen(arenaId: state.pathParameters['arenaId']!)),
       GoRoute(path: '/admin', builder: (context, state) => const AdminDashboardScreen()),
+      GoRoute(path: '/events', builder: (context, state) => const EventsListScreen()),
+      GoRoute(path: '/events/new', builder: (context, state) => const CreateEventScreen()),
+      GoRoute(path: '/events/:eventId', builder: (context, state) => EventDetailScreen(eventId: state.pathParameters['eventId']!)),
     ],
   );
 });

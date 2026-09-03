@@ -112,6 +112,20 @@ class ProfileScreen extends ConsumerWidget {
               ),
               for (final match in data.recentMatches.take(5))
                 _RecentMatchRow(match: match),
+              const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  child: ListTile(
+                    onTap: () => context.push('/events'),
+                    leading: const Icon(Icons.groups_outlined, color: AppColors.accent),
+                    title: const Text('Meus Super 8/12', style: TextStyle(fontWeight: FontWeight.w700)),
+                    subtitle: const Text('Ver e criar eventos com duplas rotativas', style: TextStyle(color: AppColors.textSecondary)),
+                    trailing: const Icon(Icons.chevron_right, color: AppColors.textTertiary),
+                  ),
+                ),
+              ),
               if (data.user.isAdmin) ...[
                 const SizedBox(height: 12),
                 Padding(

@@ -9,8 +9,8 @@ import '../feed/feed_screen.dart';
 import '../profile/profile_screen.dart';
 import '../ranking/ranking_screen.dart';
 
-/// Hosts the bottom-nav tabs. "Registrar" (index 2) isn't a tab — it pushes
-/// the full-screen record-match flow instead of swapping the IndexedStack.
+/// Hosts the bottom-nav tabs. "+" (index 2) isn't a tab — it opens a choice
+/// sheet between recording a match and creating a Super 8/12 event.
 class HomeShell extends ConsumerStatefulWidget {
   const HomeShell({super.key});
 
@@ -25,10 +25,43 @@ class _HomeShellState extends ConsumerState<HomeShell> {
 
   void _onDestinationSelected(int index) {
     if (index == 2) {
-      context.push('/record');
+      _showCreateChoiceSheet();
       return;
     }
     setState(() => _tabIndex = index < 2 ? index : index - 1);
+  }
+
+  Future<void> _showCreateChoiceSheet() async {
+    await showModalBottomSheet<void>(
+      context: context,
+      backgroundColor: AppColors.surface,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.sports_tennis, color: AppColors.accent),
+              title: const Text('Registrar Partida', style: TextStyle(fontWeight: FontWeight.w700)),
+              subtitle: const Text('Lançar o placar de uma partida com validação cruzada'),
+              onTap: () {
+                Navigator.of(sheetContext).pop();
+                context.push('/record');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.groups, color: AppColors.accent),
+              title: const Text('Criar Super 8/12', style: TextStyle(fontWeight: FontWeight.w700)),
+              subtitle: const Text('Gerar o rodízio completo com duplas rotativas'),
+              onTap: () {
+                Navigator.of(sheetContext).pop();
+                context.push('/events/new');
+              },
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
   }
 
   @override

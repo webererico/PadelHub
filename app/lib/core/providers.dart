@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'network/api_client.dart';
 import '../services/auth_service.dart';
 import '../services/arena_service.dart';
+import '../services/event_service.dart';
 import '../services/match_service.dart';
 import '../services/ranking_service.dart';
 import '../services/user_service.dart';
@@ -39,3 +40,5 @@ final rankingServiceProvider = Provider<RankingService>((ref) => RankingService(
 final arenaServiceProvider = Provider<ArenaService>((ref) => ArenaService(ref.watch(apiClientProvider)));
 
 final userServiceProvider = Provider<UserService>((ref) => UserService(ref.watch(apiClientProvider)));
+
+final eventServiceProvider = Provider<EventService>((ref) => EventService(ref.watch(apiClientProvider)));
