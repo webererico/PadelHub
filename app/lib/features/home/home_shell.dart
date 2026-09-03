@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../arena/arena_screen.dart';
+import '../arena/my_arena_tab.dart';
 import '../feed/feed_screen.dart';
 import '../profile/profile_screen.dart';
 import '../ranking/ranking_screen.dart';
@@ -19,7 +19,7 @@ class HomeShell extends StatefulWidget {
 class _HomeShellState extends State<HomeShell> {
   int _tabIndex = 0;
 
-  static const _tabs = [FeedScreen(), RankingScreen(), ArenaScreen(arenaId: 'arena-padel-club'), ProfileScreen()];
+  static const _tabs = [FeedScreen(), RankingScreen(), MyArenaTab(), ProfileScreen()];
 
   void _onDestinationSelected(int index) {
     if (index == 2) {
