@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../core/theme/app_colors.dart';
 import '../../models/match.dart';
+import '../../widgets/player_search_field.dart';
 import 'widgets/score_stepper.dart';
 
 class RecordMatchScreen extends ConsumerStatefulWidget {
@@ -15,24 +16,17 @@ class RecordMatchScreen extends ConsumerStatefulWidget {
 
 class _RecordMatchScreenState extends ConsumerState<RecordMatchScreen> {
   MatchFormat _format = MatchFormat.amistosa;
-  final _partnerController = TextEditingController();
-  final _opponent1Controller = TextEditingController();
-  final _opponent2Controller = TextEditingController();
+  MatchPlayer? _partner;
+  MatchPlayer? _opponent1;
+  MatchPlayer? _opponent2;
   final List<(int, int)> _sets = [(6, 4), (3, 6), (10, 8)];
   bool _isSubmitting = false;
 
-  @override
-  void dispose() {
-    _partnerController.dispose();
-    _opponent1Controller.dispose();
-    _opponent2Controller.dispose();
-    super.dispose();
-  }
-
   Future<void> _submit() async {
-    if (_partnerController.text.trim().isEmpty || _opponent1Controller.text.trim().isEmpty || _opponent2Controller.text.trim().isEmpty) {
+    final myUid = ref.read(authStateProvider).asData?.value?.uid;
+    if (myUid == null || _partner == null || _opponent1 == null || _opponent2 == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Preencha os 4 jogadores da partida.'), backgroundColor: AppColors.danger),
+        const SnackBar(content: Text('Selecione os 4 jogadores da partida.'), backgroundColor: AppColors.danger),
       );
       return;
     }
@@ -40,8 +34,8 @@ class _RecordMatchScreenState extends ConsumerState<RecordMatchScreen> {
     try {
       await ref.read(matchServiceProvider).submitMatch(
             format: _format,
-            teamAPlayerIds: ['me', _partnerController.text.trim()],
-            teamBPlayerIds: [_opponent1Controller.text.trim(), _opponent2Controller.text.trim()],
+            teamAPlayerIds: [myUid, _partner!.id],
+            teamBPlayerIds: [_opponent1!.id, _opponent2!.id],
             sets: _sets.map((s) => SetScore(teamA: s.$1, teamB: s.$2)).toList(),
           );
       if (mounted) {
@@ -70,6 +64,13 @@ class _RecordMatchScreenState extends ConsumerState<RecordMatchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final excludeIds = [
+      ref.watch(authStateProvider).asData?.value?.uid,
+      _partner?.id,
+      _opponent1?.id,
+      _opponent2?.id,
+    ].whereType<String>().toList();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Registrar Partida')),
       body: ListView(
@@ -89,13 +90,28 @@ class _RecordMatchScreenState extends ConsumerState<RecordMatchScreen> {
           const SizedBox(height: 22),
           const _SectionLabel('Sua dupla'),
           const SizedBox(height: 10),
-          TextField(controller: _partnerController, decoration: const InputDecoration(labelText: 'Nome do parceiro')),
+          PlayerSearchField(
+            label: 'Buscar parceiro',
+            selected: _partner,
+            excludeIds: excludeIds,
+            onSelected: (p) => setState(() => _partner = p),
+          ),
           const SizedBox(height: 22),
           const _SectionLabel('Adversários'),
           const SizedBox(height: 10),
-          TextField(controller: _opponent1Controller, decoration: const InputDecoration(labelText: 'Adversário 1')),
+          PlayerSearchField(
+            label: 'Buscar adversário 1',
+            selected: _opponent1,
+            excludeIds: excludeIds,
+            onSelected: (p) => setState(() => _opponent1 = p),
+          ),
           const SizedBox(height: 12),
-          TextField(controller: _opponent2Controller, decoration: const InputDecoration(labelText: 'Adversário 2')),
+          PlayerSearchField(
+            label: 'Buscar adversário 2',
+            selected: _opponent2,
+            excludeIds: excludeIds,
+            onSelected: (p) => setState(() => _opponent2 = p),
+          ),
           const SizedBox(height: 22),
           const _SectionLabel('Placar por set'),
           const SizedBox(height: 10),
