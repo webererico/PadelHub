@@ -69,7 +69,19 @@ class ArenaScreen extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      OutlinedButton(onPressed: () {}, child: const Text('Seguir')),
+                      // A plain GestureDetector, not OutlinedButton: Material's
+                      // button here (Row > Expanded, inside a sliver list)
+                      // collapses to zero width on Flutter web's html
+                      // renderer, splitting the sibling Text onto one
+                      // character per line. Confirmed by direct testing.
+                      GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          decoration: BoxDecoration(border: Border.all(color: AppColors.border), borderRadius: BorderRadius.circular(10)),
+                          child: const Text('Seguir', style: TextStyle(fontWeight: FontWeight.w600)),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 16),
