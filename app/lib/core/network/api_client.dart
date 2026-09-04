@@ -30,7 +30,11 @@ class ApiClient {
 
   Future<dynamic> post(String path, {Object? body}) async {
     final uri = Uri.parse('$baseUrl$path');
-    final response = await _http.post(uri, headers: await _headers(), body: jsonEncode(body));
+    // Sending `body: jsonEncode(null)` would put the literal string "null"
+    // on the wire — Express's body-parser runs in strict mode by default,
+    // which only accepts a top-level object/array and rejects that as
+    // invalid JSON. Omit the body entirely for endpoints that don't need one.
+    final response = await _http.post(uri, headers: await _headers(), body: body == null ? null : jsonEncode(body));
     return _decode(response);
   }
 
