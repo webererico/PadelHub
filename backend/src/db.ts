@@ -5,9 +5,13 @@ import {Pool} from 'pg';
  * Cloud SQL (PostgreSQL) connection pool.
  *
  * In production (deployed Cloud Function) we connect through the Cloud SQL
- * Node.js Connector, which uses the function's service account + IAM auth
- * proxying instead of exposing the database on a public IP. Locally
- * (emulator / `npm run shell`) we fall back to a plain connection string.
+ * Node.js Connector, which authenticates via the function's service account
+ * and tunnels the connection over mutual TLS — the instance's IP address
+ * alone never grants access. We use the instance's PUBLIC IP here because
+ * the function isn't attached to a VPC connector, and Cloud SQL instances
+ * don't get a private IP unless private networking (VPC peering) was set
+ * up explicitly. Locally (emulator / `npm run shell`) we fall back to a
+ * plain connection string.
  *
  * Required config (Cloud Functions params / .env for local dev):
  *   INSTANCE_CONNECTION_NAME  e.g. "padelhub-prod:southamerica-east1:padelhub-sql"
@@ -32,7 +36,7 @@ async function createPool(): Promise<Pool> {
   const connector = new Connector();
   const clientOpts = await connector.getOptions({
     instanceConnectionName,
-    ipType: IpAddressTypes.PRIVATE,
+    ipType: IpAddressTypes.PUBLIC,
   });
 
   return new Pool({
